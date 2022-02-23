@@ -120,17 +120,18 @@ JOIN `degrees`
 
 
 /*Selezionare tutti i docenti che insegnano nel Dipartimento di Matematica (54)*/
-SELECT `teachers`.`name`,`teachers`.`surname`,`degrees`.`name`,`departments`.`name`
+SELECT `teachers`.`name`,`teachers`.`surname`,`departments`.`name`
 FROM `teachers`
 JOIN `course_teacher`
- ON `teachers`.`id` = `course_teacher`.`course_id`
+ ON `teachers`.`id` = `course_teacher`.`teacher_id`
 JOIN `courses`
 	ON `course_teacher`.`course_id` = `courses`.`id`
 JOIN `degrees`
 	ON `courses`.`degree_id` = `degrees`.`id`
 JOIN `departments`
 	ON `degrees`.`department_id` = `departments`.`id`
-WHERE `departments`.`name` LIKE "m %"
+WHERE `departments`.`name` = 'Dipartimento di Matematica'
+GROUP BY `teachers`.`id`
 
 
 /*Contare quanti corsi di laurea ci sono per ogni dipartimento*/
@@ -141,7 +142,7 @@ JOIN `departments`
 GROUP BY `departments`.`id`
 
 /*Calcolare la media dei voti di ogni appello d'esame*/
-SELECT `exams`.`id`, `exam_student`.`vote`
+SELECT `exams`.`id`, AVG(`exam_student`.`vote`)
 FROM `exam_student`
 JOIN `exams` 
 	ON `exam_student`.`exam_id`=`exams`.`id`
