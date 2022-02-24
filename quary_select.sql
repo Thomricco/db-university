@@ -157,3 +157,26 @@ GROUP BY `exams`.`id`
 SELECT `office_address`, COUNT(*)
 FROM `teachers`
 GROUP BY`office_address`;
+
+
+/*BONUS DA STUDIARE 1*/
+SELECT `students`.`id` AS `codice_studente`, `exams`.`course_id` AS `codice_materia`, COUNT(`exams`.`id`) AS `numero_tentativi_appello`, MAX(`exam_student`.`vote`) AS `voto_massimo`
+FROM `students`
+INNER JOIN `exam_student`
+	ON `students`.`id` = `exam_student`.`student_id`
+INNER JOIN `exams`
+	ON `exam_student`.`exam_id` = `exams`.`id`
+GROUP BY `students`.`id`, `exams`.`course_id`
+	HAVING `voto_massimo` >= 18;
+
+/*BONUS DA STUDIARE 2*/
+SELECT CONCAT(`students`.`surname`, " ", `students`.`name`) AS "Students", `courses`.`name` AS "Exam", COUNT(`exam_student`.`exam_id`) AS "Attempts", MAX(`exam_student`.`vote`) AS "max_vote" 
+FROM `students` 
+INNER JOIN `exam_student` 
+    ON `exam_student`.`student_id`=`students`.`id` 
+INNER JOIN `exams` 
+    ON `exams`.`id`=`exam_student`.`exam_id` 
+INNER JOIN `courses` ON `courses`.`id`= `exams`.`course_id` 
+GROUP BY `Students`, `courses`.`name` 
+HAVING MAX(`exam_student`.`vote`)>=18 
+ORDER BY `Students`
