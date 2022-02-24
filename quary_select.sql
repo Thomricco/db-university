@@ -151,3 +151,9 @@ JOIN `courses`
 JOIN `degrees`
 	ON `courses`.`degree_id`=`degrees`.`id`
 GROUP BY `exams`.`id`
+
+/*Contare gli insegnanti che hanno l'ufficio nello stesso edificio*/
+
+SELECT `office_address`, COUNT(*)
+FROM `teachers`
+GROUP BY`office_address`;
